@@ -19,3 +19,10 @@ Output:
 ### Tools:
 * Python + `spacy`, `sklearn`
 * `streamlit` with small UI
+
+
+`spaCy` is a powerful NLP library used for (more advanced than TF-IDF):
+* tokenization, lemmatization
+* named entity recognition (NER)
+* part-of-speech tagging
+* text similarity and vectorization
