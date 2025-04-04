@@ -15,16 +15,30 @@ Output:
 * Keyword extraction
 * NLP matching (TF-IDF, cosine similarity)
     * `TF-IDF` (term frequency-inverse document frequency) convert text into numbers (ie. numeric vectors)
+        * Term frequency (TF): how often a word appears in a document
+        * Inverse document frequency (IDF): how unique that word is acorss focuments
+        * TF-IDF gives high scores to words that are frequent in the current text (important), and rare in the rest of the corpus (distinctive)
     * `cosine similarity` compare the similarity between numbers, from 0 (not similar) to 1 (identical direction)
-* API
+    * `spaCy` is a powerful NLP library used for (more advanced than TF-IDF):
+        * tokenization, lemmatization (eg. running -> run)
+        * named entity recognition (NER) like job titles, skills, org names
+        * part-of-speech tagging like verb, nouns
+        * text similarity and vectorization
+        * dependency parsing: understand sentence structure
+    * API
 
 ### Tools:
 * Python + `spacy`, `sklearn`
 * `streamlit` with small UI
 
 
-`spaCy` is a powerful NLP library used for (more advanced than TF-IDF):
-* tokenization, lemmatization
-* named entity recognition (NER)
-* part-of-speech tagging
-* text similarity and vectorization
+| Task | TF-IDF | spaCy | sentence-transformers (BERT)|
+|:-----|:-------|:------|:----------------------|
+| raw text compaarison | ✅ good | ✅ great (w/vectors)|
+| grammar awareness | ❌| ✅ |
+| extract entity | ❌ | ✅ |
+| keyword overlap | ❌ | ✅ |
+| deep sentence understanding | ❌ | ✅ (w embedding)|
+| speed | fast | fast | slower | 
+| best for | simple keyword overlap | smart token matching | true semantic similarity | 
+
