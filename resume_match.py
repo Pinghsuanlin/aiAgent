@@ -1,12 +1,17 @@
 # resume_tailor.py
 # TF-IDF, cosine similarity for meaning-based mataching
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer # type: ignore
+from sklearn.metrics.pairwise import cosine_similarity # type: ignore
 import re
-import streamlit as st 
+import streamlit as st # type: ignore
+import PyPDF2
+import docx
+import io
 
-# (unused for streamlit app)
+
+
+# --- (unused for streamlit app) --- #
 # def load_file(path):
 #     with open(path, "r") as f:
 #         return f.read().strip()
@@ -43,12 +48,39 @@ def rank_bullet(bullets, jd):
 #     scores = rank_bullet(bullets, jd)
 #     print_results(scores)
 
+
 # --- streamlit UI --- #
 st.title("Resume Tailoring Assistant")
-st.write("Paste your resume bullets and job description to see how well they match.")
+st.write("Paste/Upload your resume bullets and job description to see how well they match.")
 
-resume_text = st.text_area("Your Resume (bullet points)", height=200)
+# option 1. text input
+# resume_text = st.text_area("Your Resume (bullet points)", height=200)
+
+# option 2. file upload
+st.subheader("Upload Resume or Paste Text")
+uploaded_file = st.file_uploader("Upload a pdf or doc resume", type=['pdf', 'docx'])
+resume_text = ""
+
+if uploaded_file:
+    file_type = uploaded_file.name.split('.')[-1]
+    
+    if file_type == 'pdf':
+        reader = PyPDF2.PdfReader(uploaded_file)
+        resume_text = "\n".join([page.extract_text() for page in reader.pages if page.extract_text()])
+    elif file_type == 'docx':
+        doc = docx.Document(uploaded_file)
+        resume_text = "\n".join([para.text for para in doc.paragraphs if para.text.strip()])
+        
+        reader = PyPDF2.PdfReader(uploaded_file)
+        resume_text = "\n".join([page.extract_text() for page in reader.pages if page.extract_text()])
+else:
+    resume_text = st.text_area("Or paste your resume text here", height=200)
+
+
+
 jd_text = st.text_area("Job Description", height=200)
+
+
 
 if st.button("Match Bullets"):
     if resume_text and jd_text:
