@@ -50,6 +50,8 @@ Output:
 
 
 * `spaCy` framework
+<br>
+
 | Model | Size | Features | Use Case |
 |:------|:---- |:-------- |:-------- |
 | `en_core_web_sm` | small | no word vectors (less accurate) | fast, basic use only |
